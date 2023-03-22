@@ -1,11 +1,11 @@
 // this file is used for tutorial to build the compiler step by step
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
 #include <string.h>
 #include <stdint.h>
+#include <fcntl.h>
 #define int intptr_t
 
 int token;                    // current token
@@ -1308,6 +1308,16 @@ int main(int argc, char **argv)
         current_id[Type] = INT;
         current_id[Value] = i++;
     }
+    i = 0;
+    text[i++] = IMM;
+    text[i++] = 10;
+    text[i++] = PUSH;
+    text[i++] = IMM;
+    text[i++] = 20;
+    text[i++] = ADD;
+    text[i++] = PUSH;
+    text[i++] = EXIT;
+    pc = text;
 
     next(); current_id[Token] = Char; // handle void type
     next(); idmain = current_id; // keep track of main
