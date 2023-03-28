@@ -1,11 +1,16 @@
 // this file is used for tutorial to build the compiler step by step
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
 #include <string.h>
-#include <stdint.h>
-#include <fcntl.h>
+
 #define int intptr_t
 
 int token;                    // current token
@@ -57,7 +62,6 @@ int index_of_bp; // index of bp pointer on stack
 void next() {
     char *last_pos;
     int hash;
-
     while (token = *src) {
         ++src;
 
@@ -1308,16 +1312,6 @@ int main(int argc, char **argv)
         current_id[Type] = INT;
         current_id[Value] = i++;
     }
-    i = 0;
-    text[i++] = IMM;
-    text[i++] = 10;
-    text[i++] = PUSH;
-    text[i++] = IMM;
-    text[i++] = 20;
-    text[i++] = ADD;
-    text[i++] = PUSH;
-    text[i++] = EXIT;
-    pc = text;
 
     next(); current_id[Token] = Char; // handle void type
     next(); idmain = current_id; // keep track of main
@@ -1340,6 +1334,17 @@ int main(int argc, char **argv)
     }
     src[i] = 0; // add EOF character
     close(fd);
+
+    i = 0;
+    text[i++] = IMM;
+    text[i++] = 10;
+    text[i++] = PUSH;
+    text[i++] = IMM;
+    text[i++] = 20;
+    text[i++] = ADD;
+    text[i++] = PUSH;
+    text[i++] = EXIT;
+    pc = text;
 
     program();
 
